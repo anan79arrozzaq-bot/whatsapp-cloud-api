@@ -7,9 +7,10 @@ dotenv.config();
 const app = express();
 app.use(bodyParser.json());
 
-const TOKEN = process.env.WHATSAPP_TOKEN;
-const PHONE_NUMBER_ID = process.env.PHONE_NUMBER_ID;
-const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
+// === TOKEN DIISI LANGSUNG DI SINI ===
+const TOKEN = "EAAL1ZBJzgwiEBPzUBfSvP6f9OnZBfGVrZA6F28oiFmDmjGWZBFyeRwC7ZAuLrqHndppt";
+const PHONE_NUMBER_ID = "869560932908074";
+const VERIFY_TOKEN = "rahasia123";
 
 // SEND MESSAGE
 app.post("/send", async (req, res) => {
