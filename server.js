@@ -7,10 +7,9 @@ dotenv.config();
 const app = express();
 app.use(bodyParser.json());
 
-// === TOKEN DIISI LANGSUNG DI SINI ===
-const TOKEN = "EAAL1ZBJzgwiEBPzUBfSvP6f9OnZBfGVrZA6F28oiFmDmjGWZBFyeRwC7ZAuLrqHndppt";
-const PHONE_NUMBER_ID = "869560932908074";
-const VERIFY_TOKEN = "rahasia123";
+const TOKEN = process.env.WHATSAPP_TOKEN;
+const PHONE_NUMBER_ID = process.env.PHONE_NUMBER_ID;
+const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
 
 // SEND MESSAGE
 app.post("/send", async (req, res) => {
@@ -41,12 +40,15 @@ app.post("/send", async (req, res) => {
 
 // WEBHOOK VERIFICATION
 app.get("/webhook", (req, res) => {
-  if (
-    req.query["hub.mode"] === "subscribe" &&
-    req.query["hub.verify_token"] === VERIFY_TOKEN
-  ) {
-    res.send(req.query["hub.challenge"]);
-  } else res.sendStatus(403);
+  const mode = req.query["hub.mode"];
+  const token = req.query["hub.verify_token"];
+  const challenge = req.query["hub.challenge"];
+
+  if (mode === "subscribe" && token === VERIFY_TOKEN) {
+    return res.status(200).send(challenge);
+  } else {
+    return res.sendStatus(403);
+  }
 });
 
 // RECEIVE WEBHOOKS
